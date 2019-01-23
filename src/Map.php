@@ -16,10 +16,11 @@ class Map
     /**
      * Map constructor.
      * @param string $providerName
+     * @param string $key
      * @param array $arguments
      * @throws MapProviderException
      */
-    public function __construct($providerName, ...$arguments)
+    public function __construct($providerName, $key, ...$arguments)
     {
         $providerClass = sprintf('%s\\Providers\\%s', __NAMESPACE__, Str::studly($providerName));
 
@@ -27,7 +28,7 @@ class Map
             throw new MapProviderException();
         }
 
-        $this->provider = new $providerClass($arguments);
+        $this->provider = new $providerClass($key, $arguments);
     }
 
     /**
