@@ -35,7 +35,7 @@ class MapServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(dirname(__DIR__) . '/config/map.php', 'map');
 
-        $this->app->singleton('map', function () {
+        $this->app->singleton('map.provider', function () {
             $provider = config('map.default');
 
             return Map::$provider(config('map.providers.' . $provider . '.key'));
