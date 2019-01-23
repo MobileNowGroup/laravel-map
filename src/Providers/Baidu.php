@@ -29,12 +29,11 @@ class Baidu implements MapProvider
     }
 
     /**
-     * @param string $address
-     * @param string|null $city
+     * @param array $arguments
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getCoordinates($address = '', $city = null)
+    public function getCoordinates(array $arguments)
     {
         $client = new Client(['base_uri' => static::URL]);
 
@@ -43,8 +42,8 @@ class Baidu implements MapProvider
                 'query' => [
                     'ak' => $this->key,
                     'output' => 'json',
-                    'address' => $address,
-                    'city' => $city ?? $this->city,
+                    'address' => $arguments[0],
+                    'city' => $arguments[1] ?? $this->city,
                 ],
             ]);
 

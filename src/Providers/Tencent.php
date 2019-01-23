@@ -29,12 +29,11 @@ class Tencent implements MapProvider
     }
 
     /**
-     * @param string $address
-     * @param string|null $city
+     * @param array $arguments
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getCoordinates($address = '', $city = null)
+    public function getCoordinates(array $arguments)
     {
         $client = new Client(['base_uri' => static::URL]);
 
@@ -42,8 +41,8 @@ class Tencent implements MapProvider
             $response = $client->request('GET', static::COORDINATES_PATH, [
                 'query' => [
                     'key' => $this->key,
-                    'address' => $address,
-                    'region' => $city ?? $this->city,
+                    'address' => $arguments[0],
+                    'region' => $arguments[1] ?? $this->city,
                 ],
             ]);
 

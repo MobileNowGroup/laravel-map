@@ -7,7 +7,7 @@ use MobileNowGroup\LaravelMap\Contracts\MapProvider;
 
 class Map
 {
-    /** @var MapProvider  */
+    /** @var MapProvider */
     protected $provider;
 
     /** @var Map|null */
@@ -17,10 +17,9 @@ class Map
      * Map constructor.
      * @param string $providerName
      * @param string $key
-     * @param array $arguments
      * @throws MapProviderException
      */
-    public function __construct($providerName, $key, ...$arguments)
+    public function __construct($providerName, $key)
     {
         $providerClass = sprintf('%s\\Providers\\%s', __NAMESPACE__, Str::studly($providerName));
 
@@ -28,43 +27,41 @@ class Map
             throw new MapProviderException();
         }
 
-        $this->provider = new $providerClass($key, $arguments);
+        $this->provider = new $providerClass($key);
     }
 
     /**
-     * @param $address
-     * @param string|null $city
+     * @param array $arguments
      * @return mixed
      */
-    public static function getCoordinates($address, $city = null)
+    public static function getCoordinates(...$arguments)
     {
-        return static::$instance->provider->getCoordinates($address, $city);
+        return static::$instance->provider->getCoordinates($arguments);
     }
 
     /**
      * @param string $providerName
      * @param string $key
-     * @param mixed ...$arguments
      * @return Map|null
      * @throws MapProviderException
      */
-    public static function make($providerName, $key, ...$arguments): Map
+    public static function make($providerName, $key): Map
     {
         if (static::$instance) {
             return static::$instance;
         }
 
-        return static::$instance = new static($providerName, $key, ...$arguments);
+        return static::$instance = new static($providerName, $key);
     }
 
     /**
      * @param string $providerName
-     * @param string $key
+     * @param array $arguments
      * @return Map
      * @throws MapProviderException
      */
-    public static function __callStatic($providerName, $key, ...$arguments): Map
+    public static function __callStatic($providerName, array $arguments): Map
     {
-        return static::make($providerName, $key, ...$arguments);
+        return static::make($providerName, $arguments[0]);
     }
 }
