@@ -35,10 +35,20 @@ class MapServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(dirname(__DIR__) . '/config/map.php', 'map');
 
-        $this->app->singleton('map.provider', function () {
+        $this->app->singleton('map', function () {
             $provider = config('map.default');
 
             return Map::$provider(config('map.providers.' . $provider . '.key'));
         });
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['map'];
     }
 }

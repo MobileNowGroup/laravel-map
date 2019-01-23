@@ -13,6 +13,6 @@ class Map extends Facade
      */
     public static function getFacadeAccessor()
     {
-        return 'map.provider';
+        return 'map';
     }
 }
