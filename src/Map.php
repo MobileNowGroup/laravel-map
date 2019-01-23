@@ -31,28 +31,39 @@ class Map
     }
 
     /**
-     * @param $providerName
+     * @param $address
+     * @param string|null $city
+     * @return mixed
+     */
+    public static function getCoordinates($address, $city = null)
+    {
+        return static::$instance->provider->getCoordinates($address, $city);
+    }
+
+    /**
+     * @param string $providerName
+     * @param string $key
      * @param mixed ...$arguments
      * @return Map|null
      * @throws MapProviderException
      */
-    public function make($providerName, ...$arguments): Map
+    public static function make($providerName, $key, ...$arguments): Map
     {
         if (static::$instance) {
             return static::$instance;
         }
 
-        return static::$instance = new static($providerName, $arguments);
+        return static::$instance = new static($providerName, $key, ...$arguments);
     }
 
     /**
-     * @param $providerName
-     * @param $arguments
+     * @param string $providerName
+     * @param string $key
      * @return Map
      * @throws MapProviderException
      */
-    public function __call($providerName, $arguments): Map
+    public static function __callStatic($providerName, $key, ...$arguments): Map
     {
-        return $this->make($providerName, $arguments);
+        return static::make($providerName, $key, ...$arguments);
     }
 }

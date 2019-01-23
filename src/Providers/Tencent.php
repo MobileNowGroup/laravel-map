@@ -18,14 +18,14 @@ class Tencent implements MapProvider
     private $city;
 
     /**
-     * Baidu constructor.
+     * Tencent constructor.
      * @param $key
-     * @param null $city
+     * @param array $arguments
      */
-    public function __construct($key, $city = null)
+    public function __construct($key, ...$arguments)
     {
         $this->key = $key;
-        $this->city = $city ?? config('map.city');
+        $this->city = $arguments[0] ?? config('map.city');
     }
 
     /**
