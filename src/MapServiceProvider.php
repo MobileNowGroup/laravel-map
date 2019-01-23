@@ -4,7 +4,7 @@ namespace MobileNowGroup\LaravelMap;
 
 use Illuminate\Support\ServiceProvider;
 
-class PayServiceProvider extends ServiceProvider
+class MapServiceProvider extends ServiceProvider
 {
     /**
      * If is defer.
