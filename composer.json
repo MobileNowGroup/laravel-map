@@ -1,0 +1,35 @@
+{
+  "name": "MobileNowGroup/laravel-map",
+  "description": "This is a custom service for map",
+  "keywords": ["laravel", "map", "baidu map", "tencent map", "mobilenow", "package"],
+  "support": {
+    "issues": "https://github.com/MobileNowGroup/laravel-map/issues",
+    "source": "https://github.com/MobileNowGroup/laravel-map"
+  },
+  "authors": [
+    {
+      "name": "Fayne Guo",
+      "email": "fayne.guo@gmail.com"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "^6.3",
+    "laravel/framework": "^5.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "MobileNowGroup\\LaravelMap\\": "src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MobileNowGroup\\LaravelMap\\MapServiceProvider"
+      ],
+      "aliases": {
+        "Map": "MobileNowGroup\\LaravelMap\\Facades\\Map"
+      }
+    }
+  },
+  "license": "MIT"
+}
