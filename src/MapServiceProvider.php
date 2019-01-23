@@ -41,14 +41,4 @@ class MapServiceProvider extends ServiceProvider
             return Map::$provider(config('map.providers.' . $provider . '.key'));
         });
     }
-
-    /**
-     * Get services.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['map.baidu', 'map.tencent'];
-    }
 }
