@@ -35,21 +35,20 @@ class MapServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(dirname(__DIR__) . '/config/map.php', 'map');
 
-        $this->app->singleton('map.baidu', function () {
-            return Map::baidu(config('map.providers.baidu.key'));
-        });
-        $this->app->singleton('map.tencent', function () {
-            return Map::tencent(config('map.providers.tencent.key'));
+        $this->app->singleton('map', function () {
+            $provider = config('map.default');
+
+            return Map::$provider(config('map.providers.' . $provider . '.key'));
         });
     }
 
     /**
-     * Get services.
+     * Get the services provided by the provider.
      *
      * @return array
      */
     public function provides()
     {
-        return ['map.baidu', 'map.tencent'];
+        return ['map'];
     }
 }

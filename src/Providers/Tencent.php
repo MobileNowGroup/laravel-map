@@ -18,23 +18,22 @@ class Tencent implements MapProvider
     private $city;
 
     /**
-     * Baidu constructor.
+     * Tencent constructor.
      * @param $key
-     * @param null $city
+     * @param array $arguments
      */
-    public function __construct($key, $city = null)
+    public function __construct($key, ...$arguments)
     {
         $this->key = $key;
-        $this->city = $city ?? config('map.city');
+        $this->city = $arguments[0] ?? config('map.city');
     }
 
     /**
-     * @param string $address
-     * @param string|null $city
+     * @param array $arguments
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getCoordinates($address = '', $city = null)
+    public function getCoordinates(array $arguments)
     {
         $client = new Client(['base_uri' => static::URL]);
 
@@ -42,8 +41,8 @@ class Tencent implements MapProvider
             $response = $client->request('GET', static::COORDINATES_PATH, [
                 'query' => [
                     'key' => $this->key,
-                    'address' => $address,
-                    'region' => $city ?? $this->city,
+                    'address' => $arguments[0],
+                    'region' => $arguments[1] ?? $this->city,
                 ],
             ]);
 

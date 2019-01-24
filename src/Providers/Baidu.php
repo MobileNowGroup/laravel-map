@@ -20,21 +20,20 @@ class Baidu implements MapProvider
     /**
      * Baidu constructor.
      * @param $key
-     * @param null $city
+     * @param array $arguments
      */
-    public function __construct($key, $city = null)
+    public function __construct($key, ...$arguments)
     {
         $this->key = $key;
-        $this->city = $city ?? config('map.city');
+        $this->city = $arguments[0] ?? config('map.city');
     }
 
     /**
-     * @param string $address
-     * @param string|null $city
+     * @param array $arguments
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function getCoordinates($address = '', $city = null)
+    public function getCoordinates(array $arguments)
     {
         $client = new Client(['base_uri' => static::URL]);
 
@@ -43,8 +42,8 @@ class Baidu implements MapProvider
                 'query' => [
                     'ak' => $this->key,
                     'output' => 'json',
-                    'address' => $address,
-                    'city' => $city ?? $this->city,
+                    'address' => $arguments[0],
+                    'city' => $arguments[1] ?? $this->city,
                 ],
             ]);
 

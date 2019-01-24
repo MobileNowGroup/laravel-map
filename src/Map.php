@@ -7,7 +7,7 @@ use MobileNowGroup\LaravelMap\Contracts\MapProvider;
 
 class Map
 {
-    /** @var MapProvider  */
+    /** @var MapProvider */
     protected $provider;
 
     /** @var Map|null */
@@ -16,10 +16,10 @@ class Map
     /**
      * Map constructor.
      * @param string $providerName
-     * @param array $arguments
+     * @param string $key
      * @throws MapProviderException
      */
-    public function __construct($providerName, ...$arguments)
+    public function __construct($providerName, $key)
     {
         $providerClass = sprintf('%s\\Providers\\%s', __NAMESPACE__, Str::studly($providerName));
 
@@ -27,32 +27,41 @@ class Map
             throw new MapProviderException();
         }
 
-        $this->provider = new $providerClass($arguments);
+        $this->provider = new $providerClass($key);
     }
 
     /**
-     * @param $providerName
-     * @param mixed ...$arguments
+     * @param array $arguments
+     * @return mixed
+     */
+    public static function getCoordinates(...$arguments)
+    {
+        return static::$instance->provider->getCoordinates($arguments);
+    }
+
+    /**
+     * @param string $providerName
+     * @param string $key
      * @return Map|null
      * @throws MapProviderException
      */
-    public function make($providerName, ...$arguments): Map
+    public static function make($providerName, $key): Map
     {
         if (static::$instance) {
             return static::$instance;
         }
 
-        return static::$instance = new static($providerName, $arguments);
+        return static::$instance = new static($providerName, $key);
     }
 
     /**
-     * @param $providerName
-     * @param $arguments
+     * @param string $providerName
+     * @param array $arguments
      * @return Map
      * @throws MapProviderException
      */
-    public function __call($providerName, $arguments): Map
+    public static function __callStatic($providerName, array $arguments): Map
     {
-        return $this->make($providerName, $arguments);
+        return static::make($providerName, $arguments[0]);
     }
 }
