@@ -37,19 +37,19 @@ class Tencent implements MapProvider
     {
         $client = new Client(['base_uri' => static::URL]);
 
+        $query = [
+            'key' => $this->key,
+            'address' => $arguments[0],
+            'region' => $arguments[1] ?? $this->city,
+        ];
+
         try {
-            $response = $client->request('GET', static::COORDINATES_PATH, [
-                'query' => [
-                    'key' => $this->key,
-                    'address' => $arguments[0],
-                    'region' => $arguments[1] ?? $this->city,
-                ],
-            ]);
+            $response = $client->request('GET', static::COORDINATES_PATH, compact('query'));
 
             return $this->parseGeoCoderResult($response);
         } catch (\Exception $e) {
             logger()->error(sprintf("We caught one system error. Message: %s \n Code: %s.", $e->getMessage(),
-                $e->getCode()));
+                $e->getCode()), $query);
             return null;
         }
     }
