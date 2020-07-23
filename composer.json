@@ -1,5 +1,5 @@
 {
-  "name": "MobileNowGroup/laravel-map",
+  "name": "mobileNowGroup/laravel-map",
   "description": "This is a custom service for map",
   "keywords": ["laravel", "map", "baidu map", "tencent map", "mobilenow", "package"],
   "support": {
